@@ -6,10 +6,7 @@ import img1 from "../../assets/img1.jpg";
 import img2 from "../../assets/img2.jpg";
 import moment from "moment";
 
-const Sidebar = () => {
-  //   const [chat1, setChat1] = useState([]);
-  //   const [chat2, setChat2] = useState([]);
-
+const Sidebar = ({ setChat }) => {
   const { data: chatData = [], isPending } = useQuery({
     queryKey: ["chatData"],
     queryFn: async () => {
@@ -30,10 +27,18 @@ const Sidebar = () => {
   const chat1 = chatData.filter((chat) => chat.sender_id === 1);
   const chat2 = chatData.filter((chat) => chat.sender_id === 3828);
 
+  const handleChat1 = () => {
+    setChat(chat1);
+  };
+
+  const handleChat2 = () => {
+    setChat(chat2);
+  };
+
   return (
     <div className='px-5'>
       <div className='flex items-center gap-4 py-5'>
-        <Menu width={35} className='text-zinc-500 cursor-pointer' />
+        <Menu className='text-zinc-500 w-9 cursor-pointer' />
         <input
           type='text'
           className='bg-zinc-400 w-full bg-opacity-40 outline-none py-3 rounded-full px-5'
@@ -46,6 +51,7 @@ const Sidebar = () => {
         <div>
           {chat1.slice(-1).map((allChat) => (
             <div
+              onClick={handleChat1}
               key={allChat.id}
               className='mt-5 cursor-pointer flex items-center gap-3'>
               <div>
@@ -72,6 +78,7 @@ const Sidebar = () => {
         <div>
           {chat2.slice(-1).map((allChat) => (
             <div
+              onClick={handleChat2}
               key={allChat.id}
               className='mt-5 cursor-pointer flex items-center gap-3'>
               <div>
@@ -82,7 +89,7 @@ const Sidebar = () => {
                 />
               </div>
               <div className='space-y-2'>
-                <div className='flex gap-24'>
+                <div className='flex gap-[92px]'>
                   <p className='font-medium'>{allChat.sender.name}</p>
                   <p className='text-slate-500'>
                     {moment.utc(allChat.created_at).format("hh:mm A")}
