@@ -8,10 +8,17 @@ import { MdOutlineAttachFile } from "react-icons/md";
 
 const MainContent = ({ chat }) => {
   const [message, setMessage] = useState("");
+  const [textValue, setTextValue] = useState("");
   const [display, setDisplay] = useState(false);
 
   const handleMessage = (event) => {
     setMessage(event.target.value);
+  };
+
+  const handleDisplay = () => {
+    setDisplay(true);
+    setTextValue(message);
+    setMessage("");
   };
 
   return (
@@ -45,11 +52,13 @@ const MainContent = ({ chat }) => {
                   {c.message}
                 </p>
               ))}
-              <div className="float-right">
-                <p className='bg-white px-5 rounded-s-xl rounded-t-xl py-4 w-fit'>
-                  {display && message}
-                </p>
-              </div>
+              {display && (
+                <div className='float-right'>
+                  <p className='bg-white px-5 rounded-s-xl rounded-t-xl py-4 w-fit'>
+                    {textValue}
+                  </p>
+                </div>
+              )}
             </div>
           </div>
           <div className='bg-white py-4 border-s fixed bottom-0 w-full'>
@@ -57,6 +66,7 @@ const MainContent = ({ chat }) => {
               <div className='flex items-center'>
                 <MdOutlineAttachFile className='text-2xl cursor-pointer text-slate-500 rotate-45' />
                 <input
+                  value={message}
                   onChange={handleMessage}
                   type='text'
                   className='px-5 outline-none w-full text-lg'
@@ -67,7 +77,7 @@ const MainContent = ({ chat }) => {
                 <GrEmoji className='cursor-pointer' />
                 {message ? (
                   <IoMdSend
-                    onClick={() => setDisplay(true)}
+                    onClick={handleDisplay}
                     className='cursor-pointer text-[#0088cc]'
                   />
                 ) : (
